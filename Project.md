@@ -4,6 +4,12 @@ The goal of our project is to find out which countries or teams are the most pop
 
 # The data
 
+We used wget with recursion to download the websites from NOS, NU, AD and de Telegraaf.
+
+
 # The results
+![alt text](https://github.com/TomValckx/hello-world/blob/master/DocCountAD.png "Number of documents in AD")
+
+
 
 # Problems?
