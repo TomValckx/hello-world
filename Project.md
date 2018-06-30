@@ -12,17 +12,20 @@ We used wget with recursion to download the websites from NOS, NU, AD and de Tel
 We find the following results for the different newspapers
 
 **AD**
+
 |Number of documents|Number of mentions|
 |---|---|
 |![alt text](https://github.com/TomValckx/hello-world/blob/master/DocCountAD.png "Number of documents in AD")|![alt text](https://github.com/TomValckx/hello-world/blob/master/WordCountAD.png "Number of mentions in AD")|
 
 **NU**
+
 |Number of documents|Number of mentions|
 |---|---|
 |![alt text](https://github.com/TomValckx/hello-world/blob/master/DocCountNU.png "Number of documents in NU")|![alt text](https://github.com/TomValckx/hello-world/blob/master/WordCountNU.png "Number of mentions in NU")
 |
 
 **NOS**
+
 |Number of documents|Number of mentions|
 |---|---|
 |![alt text](https://github.com/TomValckx/hello-world/blob/master/DocCountNOS.png "Number of documents in NOS")
@@ -30,6 +33,7 @@ We find the following results for the different newspapers
 |
 
 **Telegraaf**
+
 |Number of documents|Number of mentions|
 |---|---|
 |![alt text](https://github.com/TomValckx/hello-world/blob/master/DocCountTG.png "Number of documents in Telegraaf")
