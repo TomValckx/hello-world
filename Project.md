@@ -152,9 +152,11 @@ We find the following results for the different news websites
 
 
 
-
-
-
-
-
 # Problems?
+
+- wget with recursion not working with javascripts on websites, causing us to miss articles *hidden* behind this
+- kernel crashes a lot, we need to start a new docker and rerun all the code
+- hathi/kerberos???
+-
+
+
