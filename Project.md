@@ -45,7 +45,7 @@ We have 4 RDD's, one for every news website. Of course for every website the way
 
 We then define a dictionary of all the words that we want to count, the 32 participating countries.
 
-```
+```scala
 val dictionary = Map(
     """Rusland""" -> 1,
     """Egypte""" -> 2,
@@ -86,7 +86,7 @@ val validWords = dictionary.keys.toSet
 ```
 Now we have all the articles we want and the words we want to count in them we can split all the articles into words and filter only the words we want. Then we add a count 1 to every word and use *reduceByKey(_+_)* to count the number of times the word is mentioned.
 
-```
+```scala
 val article_textstelegraaf = warcctelegraaf.map{ tt => (StringUtils.substring(tt._2, 0, 1000000000))}
 val article_textsnos = warccnos.map{ tt => (StringUtils.substring(tt._2, 0, 1000000000))}
 val article_textsad = warccad.map{ tt => tt._2}
@@ -109,6 +109,18 @@ val wcnos = filteredWordsnos.reduceByKey(_ + _)
 val wcad = filteredWordsad.reduceByKey(_ + _)
 val wcnu = filteredWordsnu.reduceByKey(_ + _)
 ```
+This results in the word counts for every country per news website. To find the number of articles about a certain country we first set a random number generator `cajfaljgalj;ahgadfa`. We then add a random number in front of every article. Then we split the article into tuples of (word, vector(random numbers)). Finally we map this to a tuple (word, number of distinct numbers).
+
+```scala
+val word_occurencetelegraaf = article_textstelegraaf.map(x=>r.nextFloat+x).map(_.split(" "))
+      .flatMap(x => x.map(y => (y, x(0))))
+      .groupBy(_._1)
+      .map(p => (p._1, p._2.map(_._2).toVector))
+
+val nrdoctelegraaf = word_occurencetelegraaf.filter( x => validWords.contains(x._1)).map(x => (x._1,x._2.distinct.length))
+```
+We do this for all 4 newspapers to find the numbers of articles about every country.
+
 
 # The results
 We find the following results for the different news websites
