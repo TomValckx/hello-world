@@ -11,10 +11,10 @@ We used wget with recursion to download the websites from NOS, NU, AD and de Tel
 ## The code
 We have 4 RDD's, one for every news website. Of course for every website the way they make their links are different, therefore we have to use 4 different ways to filter out the data we want to use, namely the news articles about the World Cup.
 
-`val warcctelegraaf = warcftelegraaf.
+```val warcctelegraaf = warcftelegraaf.
   filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
   filter{ _._2.getHttpHeader().statusCode != 404 }.
-map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.filter{ _._2.contains("in WK 2018")}`
+map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.filter{ _._2.contains("in WK 2018")}```
 
 
 
