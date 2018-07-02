@@ -109,7 +109,7 @@ val wcnos = filteredWordsnos.reduceByKey(_ + _)
 val wcad = filteredWordsad.reduceByKey(_ + _)
 val wcnu = filteredWordsnu.reduceByKey(_ + _)
 ```
-This results in the word counts for every country per news website. To find the number of articles about a certain country we first set a random number generator `cajfaljgalj;ahgadfa`. We then add a random number in front of every article. Then we split the article into tuples of (word, vector(random numbers)). Finally we map this to a tuple (word, number of distinct numbers).
+This results in the word counts for every country per news website. To find the number of articles about a certain country we first set a random number generator `val r = scala.util.Random`. We then add a random number in front of every article. Then we split the article into tuples of (word, vector(random numbers)). Finally we map this to a tuple (word, number of distinct numbers).
 
 ```scala
 val word_occurencetelegraaf = article_textstelegraaf.map(x=>r.nextFloat+x).map(_.split(" "))
