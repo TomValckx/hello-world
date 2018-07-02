@@ -2,14 +2,25 @@
 
 The goal of our project is to find out which countries or teams are the most popular in the Netherlands during the Football World Cup in Russia, we analyze this by looking at 4 Dutch newswebsites and we count both the number of times each country is named and the number of articles that the country appears in. 
 
-# The data
+## The data
 
 We used wget with recursion to download the websites from NOS, NU, AD and de Telegraaf.
 
 **__Same number of files, new wget?__**
 
+## The code
+We have 4 RDD's, one for every news website. Of course for every website the way they make their links are different, therefore we have to use 4 different ways to filter out the data we want to use, namely the news articles about the World Cup.
+
+'val warcctelegraaf = warcftelegraaf.
+  filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
+  filter{ _._2.getHttpHeader().statusCode != 404 }.
+map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.filter{ _._2.contains("in WK 2018")}'
+
+
+
+
 # The results
-We find the following results for the different newspapers
+We find the following results for the different news websites
 
 **AD**
 
