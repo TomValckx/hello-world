@@ -154,7 +154,12 @@ We find the following results for the different news websites
 
 # Problems?
 
-- wget with recursion not working with javascripts on websites, causing us to miss articles 'hidden' behind this
+- Since we want to use very recent data we can't use the data that is stored in the Surfsara Commoncrawl cluster. This means we have to get our own data, we used wget on some websites to get this data. One problem we had was that a lot of modern websites use javascript. But wget is not compatible with javascript causing us to maybe miss some articles or parts of the website.
+
+- Every website has its own style and make-up, therefore we couldn't really use a standard approach and had to try to surpass these differences by using another way of getting the content, filtering the data, etc. We encountered one of the main problems of using big data, 90% of the work is the preprocessing of the data.
+
+- Besides these technical problems we also had some hardware/software problems
+
 - kernel crashes a lot, we need to start a new docker and rerun all the code
 - hathi/kerberos???
 -
