@@ -15,7 +15,8 @@ We have 4 RDD's, one for every news website. Of course for every website the way
   val warcctelegraaf = warcftelegraaf.
   filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
   filter{ _._2.getHttpHeader().statusCode != 404 }.
-  map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.filter{ _._2.contains("in WK 2018")}
+  map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.
+  filter{ _._2.contains("in WK 2018")}
   ```
   
 ```scala
@@ -42,8 +43,72 @@ We have 4 RDD's, one for every news website. Of course for every website the way
   map{wr => ( wr._2.header.warcTargetUriStr, HTML2Txt(getContent(wr._2)) )}
 ```
 
+We then define a dictionary of all the words that we want to count, the 32 participating countries.
+
+```
+val dictionary = Map(
+    """Rusland""" -> 1,
+    """Egypte""" -> 2,
+    """Uruguay""" -> 3,
+    """Saudi-Arabië""" -> 4,
+    """Spanje""" -> 5,
+    """Portugal""" -> 6,
+    """Marokko""" -> 7,
+    """Iran""" -> 8,
+    """Iran""" -> 8,
+    """Frankrijk""" -> 9,
+    """Denemarken""" -> 10,
+    """Peru""" -> 11,
+    """Australië""" -> 12,
+    """Kroatië""" -> 13,
+    """IJsland""" -> 14,
+    """Argentinië""" -> 15,
+    """Nigeria""" -> 16,
+    """Servië""" -> 17,
+    """Brazilië""" -> 18,
+    """Rica""" -> 19,
+    """Zwitserland""" -> 20,
+    """Mexico""" -> 21,
+    """Zweden""" -> 22,
+    """Duitsland""" -> 23,
+    """Zuid-Korea""" -> 24,
+    """België""" -> 25,
+    """Engeland""" -> 26,
+    """Tunesië""" -> 27,
+    """Panama""" -> 28,
+    """Japan""" -> 29,
+    """Senegal""" -> 30,
+    """Colombia""" -> 31,
+    """Polen""" -> 32
+  )
+
+val validWords = dictionary.keys.toSet
+```
+Now we have all the articles we want and the words we want to count in them we can split all the articles into words and filter only the words we want. Then we add a count 1 to every word and use *reduceByKey(_+_)* to count the number of times the word is mentioned.
+
+```
+val article_textstelegraaf = warcctelegraaf.map{ tt => (StringUtils.substring(tt._2, 0, 1000000000))}
+val article_textsnos = warccnos.map{ tt => (StringUtils.substring(tt._2, 0, 1000000000))}
+val article_textsad = warccad.map{ tt => tt._2}
+val article_textsnu = warccnu.map{ tt => (StringUtils.substring(tt._2, 0, 1000000000))}
 
 
+
+val wordstelegraaf = article_textstelegraaf.flatMap(line => line.split(" ")).filter(_ != "")
+val wordsnos = article_textsnos.flatMap(line => line.split(" ")).filter(_ != "")
+val wordsad = article_textsad.flatMap(line => line.split(" ")).filter(_ != "")
+val wordsnu = article_textsnu.flatMap(line => line.split(" ")).filter(_ != "")
+
+val filteredWordstelegraaf = wordstelegraaf.filter(word => validWords.contains(word)).map( word => word.replace("Rica","Costa Rica")).map(word => (word,1))
+val filteredWordsnos = wordsnos.filter(word => validWords.contains(word)).map( word => word.replace("Rica","Costa Rica")).map(word => (word,1))
+val filteredWordsad = wordsad.filter(word => validWords.contains(word)).map( word => word.replace("Rica","Costa Rica")).map(word => (word,1))
+val filteredWordsnu = wordsnu.filter(word => validWords.contains(word)).map( word => word.replace("Rica","Costa Rica")).map(word => (word,1))
+
+val wctelegraaf = filteredWordstelegraaf.reduceByKey(_ + _)
+val wcnos = filteredWordsnos.reduceByKey(_ + _)
+val wcad = filteredWordsad.reduceByKey(_ + _)
+val wcnu = filteredWordsnu.reduceByKey(_ + _)
+```
 
 # The results
 We find the following results for the different news websites
