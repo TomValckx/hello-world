@@ -17,6 +17,30 @@ We have 4 RDD's, one for every news website. Of course for every website the way
   filter{ _._2.getHttpHeader().statusCode != 404 }.
   map{wr => ( wr._2.header.warcTargetUriStr, getContent(wr._2) )}.filter{ _._2.contains("in WK 2018")}
   ```
+  
+```scala
+  val warccnos = warcfnos.
+  filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
+  filter{ _._2.getHttpHeader().statusCode != 404 }.
+  filter{ _._2.header.warcTargetUriStr.startsWith("https://nos.nl/wk2018/")}.
+  map{wr => ( wr._2.header.warcTargetUriStr, HTML2Txt(getContent(wr._2)) )}
+```
+
+```scala
+  val warccad = warcfad.
+  filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
+  filter{ _._2.getHttpHeader().statusCode != 404 }.
+  filter{ _._2.header.warcTargetUriStr.contains("wk-2018")}.
+  map{wr => ( wr._2.header.warcTargetUriStr, HTML2Txt(getContent(wr._2)) )}
+```
+
+```scala
+  val warccnu = warcfnu.
+  filter{ _._2.header.warcTypeIdx == 2 /* response */ }.
+  filter{ _._2.getHttpHeader().statusCode != 404 }.
+  filter{ _._2.header.warcTargetUriStr.contains("wk-2018")}.
+  map{wr => ( wr._2.header.warcTargetUriStr, HTML2Txt(getContent(wr._2)) )}
+```
 
 
 
